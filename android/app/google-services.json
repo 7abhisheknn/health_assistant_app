@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "910654837015",
+    "project_id": "health-assistant-app",
+    "storage_bucket": "health-assistant-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910654837015:android:70ff96b42f408d0d052752",
+        "android_client_info": {
+          "package_name": "com.example.health_assistant_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910654837015-divhledd3ig24ojp76kkbrht3lqnk5kg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuFLRD8D7_cQxrK1XvLA57l97WMOKp9is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910654837015-divhledd3ig24ojp76kkbrht3lqnk5kg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
