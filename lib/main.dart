@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(Providers());
+  runApp(const Providers());
 }
 
 /// widget for all Providers
@@ -18,9 +18,9 @@ class Providers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
+    return ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
-      child: HAA(),
+      child: const HAA(),
     );
   }
 }
@@ -37,12 +37,12 @@ class HAA extends StatelessWidget {
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.idTokenChanges(),
         builder: (context, snapshot) {
-          return snapshot.hasData ? HomePage() : AuthPage();
+          return snapshot.hasData ? const HomePage() : const AuthPage();
         },
       ),
       routes: {
-        '/home_page': (context) => HomePage(),
-        '/auth_page': (context) => AuthPage(),
+        '/home_page': (context) => const HomePage(),
+        '/auth_page': (context) => const AuthPage(),
       },
     );
   }
