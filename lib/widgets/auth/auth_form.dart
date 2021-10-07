@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:health_assistant_app/pickers/user_image_picker.dart';
 
 class AuthForm extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final isLoading;
   final void Function(
     String email,
@@ -11,6 +12,7 @@ class AuthForm extends StatefulWidget {
     String username,
     File image,
     bool isLogin,
+    bool isDoctor,
   ) submitFn;
 
   // AuthForm(this.submitFn, this.isLoading, {Key? key}) : super(key: key);
@@ -23,6 +25,7 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   bool _isLogin = true;
+  bool _isDoctor = false;
   final _formKey = GlobalKey<FormState>();
   String _userEmail = '';
   String _userName = '';
@@ -54,6 +57,7 @@ class _AuthFormState extends State<AuthForm> {
       _userName.trim(),
       _userImageFile!,
       _isLogin,
+      _isDoctor,
     );
   }
 
@@ -117,6 +121,22 @@ class _AuthFormState extends State<AuthForm> {
                     obscureText: true,
                     decoration: const InputDecoration(labelText: 'Password'),
                   ),
+                  if (!_isLogin)
+                    SwitchListTile(
+                      title: _isDoctor
+                          ? const Text('Doctor')
+                          : const Text('Patient'),
+                      value: _isDoctor,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _isDoctor = value;
+                        });
+                        print(_isDoctor);
+                      },
+                      secondary: _isDoctor
+                          ? const Icon(Icons.medication_outlined)
+                          : const Icon(Icons.person),
+                    ),
                   const SizedBox(height: 12),
                   widget.isLoading
                       ? const CircularProgressIndicator()

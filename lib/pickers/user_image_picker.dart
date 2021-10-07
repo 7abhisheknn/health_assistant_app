@@ -14,20 +14,20 @@ class UserImagePicker extends StatefulWidget {
 
 class _UserImagePickerState extends State<UserImagePicker> {
   File? _storedImage;
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(ImageSource imageSource) async {
     final picker = ImagePicker();
 
     final XFile? imageFile = await picker.pickImage(
-      source: ImageSource.gallery,
+      source: imageSource,
       imageQuality: 50,
       maxWidth: 150,
     );
-    // ignore: unrelated_type_equality_checks
-    if (imageFile == Null) return;
-    setState(() {
-      _storedImage = File(imageFile!.path);
-    });
-    widget.imagePickFn(_storedImage!);
+    if (imageFile != null) {
+      setState(() {
+        _storedImage = File(imageFile.path);
+      });
+      widget.imagePickFn(_storedImage!);
+    }
   }
 
   @override
@@ -40,10 +40,24 @@ class _UserImagePickerState extends State<UserImagePicker> {
           backgroundImage:
               _storedImage != null ? FileImage(_storedImage!) : null,
         ),
-        TextButton.icon(
-          onPressed: _pickImage,
-          icon: const Icon(Icons.image),
-          label: const Text('Add Image'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton.icon(
+              onPressed: () {
+                _pickImage(ImageSource.camera);
+              },
+              icon: const Icon(Icons.image),
+              label: const Text('Camera'),
+            ),
+            TextButton.icon(
+              onPressed: () {
+                _pickImage(ImageSource.gallery);
+              },
+              icon: const Icon(Icons.image),
+              label: const Text('gallery'),
+            ),
+          ],
         ),
       ],
     );
