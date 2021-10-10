@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/pickers/user_image_picker.dart';
+import 'package:health_assistant_app/widgets/auth/list_adder.dart';
 
 class AuthForm extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
@@ -13,6 +14,7 @@ class AuthForm extends StatefulWidget {
     File image,
     bool isLogin,
     bool isDoctor,
+    List<String> degree,
   ) submitFn;
 
   // AuthForm(this.submitFn, this.isLoading, {Key? key}) : super(key: key);
@@ -30,7 +32,15 @@ class _AuthFormState extends State<AuthForm> {
   String _userEmail = '';
   String _userName = '';
   String _userPassword = '';
+  List<String> _degree = [];
+  List<String> _specialist = [];
   File? _userImageFile;
+  void _setLists(List<String> degree, List<String> specialist) {
+    setState(() {
+      _degree = degree;
+      _specialist = specialist;
+    });
+  }
 
   void _pickedImage(File image) {
     _userImageFile = image;
@@ -58,6 +68,7 @@ class _AuthFormState extends State<AuthForm> {
       _userImageFile!,
       _isLogin,
       _isDoctor,
+      _degree,
     );
   }
 
@@ -131,12 +142,12 @@ class _AuthFormState extends State<AuthForm> {
                         setState(() {
                           _isDoctor = value;
                         });
-                        print(_isDoctor);
                       },
                       secondary: _isDoctor
                           ? const Icon(Icons.medication_outlined)
                           : const Icon(Icons.person),
                     ),
+                  if (!_isLogin && _isDoctor) ListAdder(setLists: _setLists),
                   const SizedBox(height: 12),
                   widget.isLoading
                       ? const CircularProgressIndicator()

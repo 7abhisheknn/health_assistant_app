@@ -13,6 +13,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  List<String> degree = ['MBBS', 'MD'];
   bool _isLoading = false;
   final _auth = FirebaseAuth.instance;
   void _submitAuthForm(
@@ -22,6 +23,7 @@ class _AuthPageState extends State<AuthPage> {
     File image,
     bool isLogin,
     bool isDoctor,
+    List<String> degree,
   ) async {
     UserCredential? authResult;
     try {
@@ -49,6 +51,7 @@ class _AuthPageState extends State<AuthPage> {
           'username': username,
           'email': email,
           'image_url': url,
+          if (isDoctor) 'degree': degree,
         });
       }
     } on Exception catch (e) {
@@ -66,8 +69,10 @@ class _AuthPageState extends State<AuthPage> {
       setState(() {
         _isLoading = false;
       });
+      // ignore: avoid_print
       print(error);
     }
+    // ignore: avoid_print
     if (authResult != null) print(authResult);
   }
 
