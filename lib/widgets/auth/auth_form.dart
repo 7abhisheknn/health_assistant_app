@@ -35,9 +35,15 @@ class _AuthFormState extends State<AuthForm> {
   List<String> _degree = [];
   List<String> _specialist = [];
   File? _userImageFile;
-  void _setLists(List<String> degree, List<String> specialist) {
+
+  void _setDegree(List<String> degree) {
     setState(() {
       _degree = degree;
+    });
+  }
+
+  void _setSpecialist(List<String> specialist) {
+    setState(() {
       _specialist = specialist;
     });
   }
@@ -147,7 +153,11 @@ class _AuthFormState extends State<AuthForm> {
                           ? const Icon(Icons.medication_outlined)
                           : const Icon(Icons.person),
                     ),
-                  if (!_isLogin && _isDoctor) ListAdder(setLists: _setLists),
+                  if (!_isLogin && _isDoctor)
+                    ListAdder(
+                      setDegree: _setDegree,
+                      setSpecialist: _setSpecialist,
+                    ),
                   const SizedBox(height: 12),
                   widget.isLoading
                       ? const CircularProgressIndicator()

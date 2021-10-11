@@ -1,31 +1,79 @@
 import 'package:flutter/material.dart';
 
 class ListAdder extends StatefulWidget {
-  Function setLists;
-  ListAdder({Key? key, required this.setLists}) : super(key: key);
+  Function setDegree;
+  Function setSpecialist;
+  ListAdder({Key? key, required this.setDegree, required this.setSpecialist})
+      : super(key: key);
 
   @override
   _ListAdderState createState() => _ListAdderState();
 }
 
 class _ListAdderState extends State<ListAdder> {
-  List<String> degree = [];
-  List<String> specialist = [];
-  Future<void> _listAdder(Text title, int choose) async {
+  final _controller = TextEditingController();
+  String _enteredText = '';
+  List<List<String>> list = [
+    ['i am cool', 'mbbs'],
+    ['heart', 'lungs']
+  ];
+  Future<void> _listAdder(
+      BuildContext context, Text title, int i, Function f) async {
     return showDialog(
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: title,
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: const <Widget>[
-                  Text('This is a demo alert dialog.'),
-                  Text('Would you like to approve of this message?'),
-                ],
-              ),
-            ),
+            content: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: list[i]
+                            .map((string) => ListTile(
+                                  title: Text(string),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        list[i].remove(string);
+                                      });
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _controller,
+                            onChanged: (value) {
+                              setState(() {
+                                _enteredText = value;
+                              });
+                            },
+                            decoration: const InputDecoration(
+                                label: Text('Add a felid')),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              list[i].add(_enteredText);
+                            });
+                            _controller.clear();
+                          },
+                          icon: const Icon(Icons.send),
+                        ),
+                      ],
+                    )
+                  ]);
+            }),
             actions: <Widget>[
               TextButton(
                 child: const Text('Approve'),
@@ -44,12 +92,14 @@ class _ListAdderState extends State<ListAdder> {
       children: [
         TextButton(
             onPressed: () {
-              _listAdder(const Text('Add your Degrees'), 0);
+              _listAdder(
+                  context, const Text('Add your Degrees'), 0, widget.setDegree);
             },
             child: const Text('Degrees')),
         TextButton(
             onPressed: () {
-              _listAdder(const Text('Add your specialists'), 0);
+              _listAdder(context, const Text('Add your specialists'), 1,
+                  widget.setSpecialist);
             },
             child: const Text('Specialists')),
       ],
