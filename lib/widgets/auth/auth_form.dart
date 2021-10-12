@@ -15,6 +15,7 @@ class AuthForm extends StatefulWidget {
     bool isLogin,
     bool isDoctor,
     List<String> degree,
+    List<String> specialist,
   ) submitFn;
 
   // AuthForm(this.submitFn, this.isLoading, {Key? key}) : super(key: key);
@@ -75,6 +76,7 @@ class _AuthFormState extends State<AuthForm> {
       _isLogin,
       _isDoctor,
       _degree,
+      _specialist,
     );
   }
 

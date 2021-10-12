@@ -24,6 +24,7 @@ class _AuthPageState extends State<AuthPage> {
     bool isLogin,
     bool isDoctor,
     List<String> degree,
+    List<String> specialist,
   ) async {
     UserCredential? authResult;
     try {
@@ -52,6 +53,7 @@ class _AuthPageState extends State<AuthPage> {
           'email': email,
           'image_url': url,
           if (isDoctor) 'degree': degree,
+          if (isDoctor) 'specialist': specialist
         });
       }
     } on Exception catch (e) {

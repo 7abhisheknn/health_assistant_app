@@ -13,10 +13,7 @@ class ListAdder extends StatefulWidget {
 class _ListAdderState extends State<ListAdder> {
   final _controller = TextEditingController();
   String _enteredText = '';
-  List<List<String>> list = [
-    ['i am cool', 'mbbs'],
-    ['heart', 'lungs']
-  ];
+  List<List<String>> list = [[], []];
   Future<void> _listAdder(
       BuildContext context, Text title, int i, Function f) async {
     return showDialog(
@@ -76,11 +73,18 @@ class _ListAdderState extends State<ListAdder> {
             }),
             actions: <Widget>[
               TextButton(
-                child: const Text('Approve'),
+                child: const Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
+              ElevatedButton(
+                onPressed: () {
+                  f(list[i]);
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Save"),
+              )
             ],
           );
         });
@@ -89,6 +93,7 @@ class _ListAdderState extends State<ListAdder> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         TextButton(
             onPressed: () {
