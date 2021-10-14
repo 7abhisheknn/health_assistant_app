@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/pages/auth_page.dart';
 import 'package:health_assistant_app/pages/home_page.dart';
+import 'package:health_assistant_app/pages/tabs.dart';
 import 'package:health_assistant_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,7 @@ class HAA extends StatelessWidget {
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.idTokenChanges(),
         builder: (context, snapshot) {
-          return snapshot.hasData ? const HomePage() : const AuthPage();
+          return snapshot.hasData ? const Tabs() : const AuthPage();
         },
       ),
       routes: {
