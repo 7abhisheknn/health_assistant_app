@@ -20,7 +20,7 @@ class _AuthPageState extends State<AuthPage> {
     String email,
     String password,
     String username,
-    File image,
+    File? image,
     bool isLogin,
     bool isDoctor,
     List<String> degree,
@@ -42,7 +42,7 @@ class _AuthPageState extends State<AuthPage> {
             .ref()
             .child('user_images')
             .child(authResult.user!.uid + '.jpg');
-        await ref.putFile(image).whenComplete(() => null);
+        await ref.putFile(image!).whenComplete(() => null);
         final url = await ref.getDownloadURL();
         String uploadPlace = isDoctor ? 'doctor' : 'patient';
         await FirebaseFirestore.instance
