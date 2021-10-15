@@ -82,107 +82,104 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        margin: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (!_isLogin) UserImagePicker(imagePickFn: _pickedImage),
+    return Card(
+      margin: const EdgeInsets.all(20),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!_isLogin) UserImagePicker(imagePickFn: _pickedImage),
+                TextFormField(
+                  key: const ValueKey('email'),
+                  onSaved: (value) {
+                    _userEmail = value!;
+                  },
+                  validator: (value) {
+                    if (value == null) return null;
+                    if (value.isEmpty || !value.contains('@')) {
+                      return 'Enter valid email address';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(labelText: 'Email address'),
+                ),
+                if (!_isLogin)
                   TextFormField(
-                    key: const ValueKey('email'),
+                    key: const ValueKey('username'),
                     onSaved: (value) {
-                      _userEmail = value!;
+                      _userName = value!;
                     },
                     validator: (value) {
                       if (value == null) return null;
-                      if (value.isEmpty || !value.contains('@')) {
-                        return 'Enter valid email address';
+                      if (value.isEmpty || value.length < 4) {
+                        return 'Enter Username of length at least 4';
                       }
                       return null;
                     },
-                    keyboardType: TextInputType.emailAddress,
-                    decoration:
-                        const InputDecoration(labelText: 'Email address'),
+                    decoration: const InputDecoration(labelText: 'Username'),
                   ),
-                  if (!_isLogin)
-                    TextFormField(
-                      key: const ValueKey('username'),
-                      onSaved: (value) {
-                        _userName = value!;
-                      },
-                      validator: (value) {
-                        if (value == null) return null;
-                        if (value.isEmpty || value.length < 4) {
-                          return 'Enter Username of length at least 4';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(labelText: 'Username'),
-                    ),
-                  TextFormField(
-                    key: const ValueKey('password'),
-                    onSaved: (value) {
-                      _userPassword = value!;
+                TextFormField(
+                  key: const ValueKey('password'),
+                  onSaved: (value) {
+                    _userPassword = value!;
+                  },
+                  validator: (value) {
+                    if (value == null) return null;
+                    if (value.isEmpty || value.length < 7) {
+                      return 'Password at least be 7 length long';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                  decoration: const InputDecoration(labelText: 'Password'),
+                ),
+                if (!_isLogin)
+                  SwitchListTile(
+                    title: _isDoctor
+                        ? const Text('Doctor')
+                        : const Text('Patient'),
+                    value: _isDoctor,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _isDoctor = value;
+                      });
                     },
-                    validator: (value) {
-                      if (value == null) return null;
-                      if (value.isEmpty || value.length < 7) {
-                        return 'Password at least be 7 length long';
-                      }
-                      return null;
-                    },
-                    obscureText: true,
-                    decoration: const InputDecoration(labelText: 'Password'),
+                    secondary: _isDoctor
+                        ? const Icon(Icons.medication_outlined)
+                        : const Icon(Icons.person),
                   ),
-                  if (!_isLogin)
-                    SwitchListTile(
-                      title: _isDoctor
-                          ? const Text('Doctor')
-                          : const Text('Patient'),
-                      value: _isDoctor,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _isDoctor = value;
-                        });
-                      },
-                      secondary: _isDoctor
-                          ? const Icon(Icons.medication_outlined)
-                          : const Icon(Icons.person),
-                    ),
-                  if (!_isLogin && _isDoctor)
-                    ListAdder(
-                      setDegree: _setDegree,
-                      setSpecialist: _setSpecialist,
-                    ),
-                  const SizedBox(height: 12),
-                  widget.isLoading
-                      ? const CircularProgressIndicator()
-                      : Column(
-                          children: [
-                            ElevatedButton(
-                              child: Text(_isLogin ? 'Login' : 'SignUp'),
-                              onPressed: _trySubmit,
-                            ),
-                            TextButton(
-                              child: Text(_isLogin
-                                  ? 'Create New Account'
-                                  : 'I already have account'),
-                              onPressed: () {
-                                setState(() {
-                                  _isLogin = !_isLogin;
-                                });
-                              },
-                            )
-                          ],
-                        ),
-                ],
-              ),
+                if (!_isLogin && _isDoctor)
+                  ListAdder(
+                    setDegree: _setDegree,
+                    setSpecialist: _setSpecialist,
+                  ),
+                const SizedBox(height: 12),
+                widget.isLoading
+                    ? const CircularProgressIndicator()
+                    : Column(
+                        children: [
+                          ElevatedButton(
+                            child: Text(_isLogin ? 'Login' : 'SignUp'),
+                            onPressed: _trySubmit,
+                          ),
+                          TextButton(
+                            child: Text(_isLogin
+                                ? 'Create New Account'
+                                : 'I already have account'),
+                            onPressed: () {
+                              setState(() {
+                                _isLogin = !_isLogin;
+                              });
+                            },
+                          )
+                        ],
+                      ),
+              ],
             ),
           ),
         ),
