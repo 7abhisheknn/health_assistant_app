@@ -80,11 +80,9 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AuthForm(
-        submitFn: _submitAuthForm,
-        isLoading: _isLoading,
-      ),
+    return AuthForm(
+      submitFn: _submitAuthForm,
+      isLoading: _isLoading,
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// widget to contain all sorts of themes for the app
 class ThemeProvider with ChangeNotifier {
-  String currentTheme = 'dark';
+  String currentTheme = 'light';
   Map<String, ThemeData> appTheme = {
     'dark': ThemeData.dark(),
     'light': ThemeData.light(),

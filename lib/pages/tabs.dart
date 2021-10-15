@@ -4,6 +4,22 @@ import 'package:health_assistant_app/pages/home_page.dart';
 
 class Tabs extends StatelessWidget {
   const Tabs({Key? key}) : super(key: key);
+  void selectedItem(BuildContext context, item) {
+    switch (item) {
+      case 0:
+        FirebaseAuth.instance.signOut();
+        break;
+      // case 1:
+      //   print("Privacy Clicked");
+      //   break;
+      // case 2:
+      //   print("User Logged out");
+      //   Navigator.of(context).pushAndRemoveUntil(
+      //       MaterialPageRoute(builder: (context) => LoginPage()),
+      //       (route) => false);
+      //   break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,19 +29,17 @@ class Tabs extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             actions: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
-                icon: const Icon(
-                  Icons.exit_to_app,
-                  color: Colors.white,
-                ),
-                label: const Text(
-                  'logout',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
+              PopupMenuButton<int>(
+                onSelected: (item) => selectedItem(context, item),
+                itemBuilder: (context) => [
+                  const PopupMenuItem<int>(
+                      value: 0,
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.red),
+                      )),
+                ],
+              ),
             ],
             bottom: const TabBar(
               tabs: [
