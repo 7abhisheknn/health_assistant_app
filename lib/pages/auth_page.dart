@@ -46,6 +46,10 @@ class _AuthPageState extends State<AuthPage> {
         final url = await ref.getDownloadURL();
         String uploadPlace = isDoctor ? 'doctor' : 'patient';
         await FirebaseFirestore.instance
+            .collection('isDoctor')
+            .doc(authResult.user!.uid)
+            .set({'isDoctor': isDoctor ? 1 : 0});
+        await FirebaseFirestore.instance
             .collection(uploadPlace)
             .doc(authResult.user!.uid)
             .set({
