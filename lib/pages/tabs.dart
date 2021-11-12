@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/pages/home_page.dart';
+import 'package:health_assistant_app/pages/search_page.dart';
 
 class Tabs extends StatelessWidget {
   const Tabs({Key? key}) : super(key: key);
@@ -29,6 +30,15 @@ class Tabs extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchPage()),
+                  );
+                },
+                child: const Icon(Icons.search),
+              ),
               PopupMenuButton<int>(
                 onSelected: (item) => selectedItem(context, item),
                 itemBuilder: (context) => [
