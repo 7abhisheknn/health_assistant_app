@@ -17,11 +17,8 @@ class _NewMessageState extends State<NewMessage> {
   Future<void> _sendMessage() async {
     FocusScope.of(context).unfocus();
     final uid = FirebaseAuth.instance.currentUser!.uid;
-    final isDoctor =
-        await FirebaseFirestore.instance.collection('isDoctor').doc(uid).get();
-    String s = (isDoctor['isDoctor'] == '1') ? 'doctor' : 'patient';
     final userData =
-        await FirebaseFirestore.instance.collection(s).doc(uid).get();
+        await FirebaseFirestore.instance.collection('user').doc(uid).get();
 
     FirebaseFirestore.instance
         .collection('all_chats')

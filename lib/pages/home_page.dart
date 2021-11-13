@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final Stream<QuerySnapshot> _myChats = FirebaseFirestore.instance
-      .collection('patient')
+      .collection('user')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('my_chats')
       .snapshots();
@@ -41,14 +41,14 @@ class _HomePageState extends State<HomePage> {
                   MaterialPageRoute(
                       builder: (context) => ChatScreen(
                           chatId: data['chat_id'],
-                          name: data['name'],
-                          image: data['image'])),
+                          name: data['username'],
+                          image: data['image_url'])),
                 );
               },
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(data['image']),
+                backgroundImage: NetworkImage(data['image_url']),
               ),
-              title: Text(data['name']),
+              title: Text(data['username']),
             );
           }).toList(),
         );

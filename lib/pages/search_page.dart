@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:health_assistant_app/helper/search_tap.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   CollectionReference collectionRef =
-      FirebaseFirestore.instance.collection('doctor');
+      FirebaseFirestore.instance.collection('user');
   List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
 
@@ -21,6 +22,7 @@ class _SearchPageState extends State<SearchPage> {
     List<Map<String, dynamic>> allData = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList() as List<Map<String, dynamic>>;
+    allData = allData.where((element) => element['is_doctor'] == true).toList();
     setState(() {
       _allUsers = allData;
       _foundUsers = allData;
@@ -72,13 +74,6 @@ class _SearchPageState extends State<SearchPage> {
           }
         }
       }
-      // results = _allUsers
-      //     .where(
-      //       (user) => user["username"].toLowerCase().contains(
-      //             enteredKeyword.toLowerCase(),
-      //           ),
-      //     )
-      //     .toList();
     }
     setState(() {
       _foundUsers = results;
@@ -112,6 +107,10 @@ class _SearchPageState extends State<SearchPage> {
                         elevation: 4,
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
+                          onTap: () async {
+                            await searchOnTap(_foundUsers[index]);
+                            Navigator.of(context).pop();
+                          },
                           leading: CircleAvatar(
                             backgroundImage:
                                 NetworkImage(_foundUsers[index]['image_url']),
@@ -119,8 +118,6 @@ class _SearchPageState extends State<SearchPage> {
                           title: Text(_foundUsers[index]['username']),
                           subtitle: Text(
                               '${_foundUsers[index]["email"]}\n${_foundUsers[index]["degree"]} | ${_foundUsers[index]["specialist"]}'),
-                          // subtitle: Text(
-                          //     '${_foundUsers[index]["age"].toString()} years old'),
                         ),
                       ),
                     )
