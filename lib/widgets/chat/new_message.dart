@@ -20,16 +20,16 @@ class _NewMessageState extends State<NewMessage> {
     final userData =
         await FirebaseFirestore.instance.collection('user').doc(uid).get();
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('all_chats')
         .doc(widget.chatId)
         .collection('chat')
         .add({
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
-      'userId': uid,
+      'uid': uid,
       'username': userData['username'],
-      'userImage': userData['image_url']
+      'image_url': userData['image_url']
     });
     _controller.clear();
   }
@@ -52,7 +52,11 @@ class _NewMessageState extends State<NewMessage> {
             decoration: const InputDecoration(label: Text('Send a message...')),
           )),
           IconButton(
-              onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage,
+              onPressed: _enteredMessage.trim().isEmpty
+                  ? null
+                  : () async {
+                      await _sendMessage();
+                    },
               icon: const Icon(Icons.send))
         ],
       ),
