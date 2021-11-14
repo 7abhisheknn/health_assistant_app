@@ -15,7 +15,6 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  List<String> degree = ['MBBS', 'MD'];
   bool _isLoading = false;
   final _auth = FirebaseAuth.instance;
   Future _submitAuthForm(
@@ -54,7 +53,7 @@ class _AuthPageState extends State<AuthPage> {
           'username': username,
           'email': email,
           'image_url': url,
-          if (isDoctor) 'is_doctor': isDoctor,
+          'is_doctor': isDoctor,
           if (isDoctor) 'degree': degree,
           if (isDoctor) 'specialist': specialist
         });
