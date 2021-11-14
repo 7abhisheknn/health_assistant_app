@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:health_assistant_app/pages/form_page.dart';
 import 'package:health_assistant_app/pages/home_page.dart';
 import 'package:health_assistant_app/pages/search_page.dart';
 
@@ -56,12 +56,12 @@ class _TabsState extends State<Tabs> {
                 Tab(icon: Icon(Icons.list_alt)),
               ],
             ),
-            title: const Text('Tabs Demo'),
+            title: const Text('Health Assistant App'),
           ),
           body: const TabBarView(
             children: [
               HomePage(),
-              Icon(Icons.auto_graph),
+              FormPage(),
               Icon(Icons.list_alt),
             ],
           ),
