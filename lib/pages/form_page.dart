@@ -398,6 +398,62 @@ class _FormPageState extends State<FormPage> {
                           ],
                         ),
                       )),
+                  Container(
+                    margin: const EdgeInsets.all(20.0),
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        print('hi');
+                        List l = user!['wakeupHistory'];
+                        l.add(user!['wakeupTime']);
+                        user!['wakeupHistory'] = l;
+
+                        l = user!['sleepHistory'];
+                        l.add(user!['sleepTime']);
+                        user!['sleepHistory'] = l;
+
+                        l = user!['exerciseHistory'];
+                        l.add(user!['exerciseTime']);
+                        user!['exerciseHistory'] = l;
+
+                        l = user!['mmh'];
+                        l.add(user!['mmt']);
+                        user!['mmh'] = l;
+
+                        l = user!['amh'];
+                        l.add(user!['amt']);
+                        user!['amh'] = l;
+
+                        l = user!['emh'];
+                        l.add(user!['emt']);
+                        user!['emh'] = l;
+
+                        l = user!['nmh'];
+                        l.add(user!['nmt']);
+                        user!['nmh'] = l;
+                        await FirebaseFirestore.instance
+                            .collection('user')
+                            .doc(uid)
+                            .update({
+                          'wakeupHistory': user!['wakeupHistory'],
+                          'sleepHistory': user!['sleepHistory'],
+                          'exerciseHistory': user!['exerciseHistory'],
+                          'mmh': user!['mmh'],
+                          'amh': user!['amh'],
+                          'emh': user!['emh'],
+                          'nmh': user!['nmh'],
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.done_all_rounded,
+                        size: 50,
+                      ),
+                      label: const Text(
+                        'Submit',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
