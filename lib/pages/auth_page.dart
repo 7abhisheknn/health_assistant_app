@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
+import 'package:provider/provider.dart';
+
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
 
@@ -13,10 +15,9 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  List<String> degree = ['MBBS', 'MD'];
   bool _isLoading = false;
   final _auth = FirebaseAuth.instance;
-  void _submitAuthForm(
+  Future _submitAuthForm(
     String email,
     String password,
     String username,
@@ -44,14 +45,15 @@ class _AuthPageState extends State<AuthPage> {
             .child(authResult.user!.uid + '.jpg');
         await ref.putFile(image!).whenComplete(() => null);
         final url = await ref.getDownloadURL();
-        String uploadPlace = isDoctor ? 'doctor' : 'patient';
         await FirebaseFirestore.instance
-            .collection(uploadPlace)
+            .collection('user')
             .doc(authResult.user!.uid)
             .set({
+          'doc_id': authResult.user!.uid,
           'username': username,
           'email': email,
           'image_url': url,
+          'is_doctor': isDoctor,
           if (isDoctor) 'degree': degree,
           if (isDoctor) 'specialist': specialist
         });
