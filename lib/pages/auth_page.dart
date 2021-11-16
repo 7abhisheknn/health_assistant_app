@@ -5,8 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
-import 'package:provider/provider.dart';
-
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
 

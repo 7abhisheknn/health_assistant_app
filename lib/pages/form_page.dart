@@ -23,7 +23,6 @@ class _FormPageState extends State<FormPage> {
         .then((value) {
       user = value.data();
     });
-    TimeFormat(user!['wakeupTime']);
     setState(() {
       loading = false;
     });
@@ -56,7 +55,7 @@ class _FormPageState extends State<FormPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 PickedTime(
-                                    time: TimeFormat(user!['wakeupTime'])),
+                                    time: timeFormat(user!['wakeupTime'])),
                                 ElevatedButton(
                                     onPressed: () async {
                                       TimeOfDay? time = await showTimePicker(
@@ -108,7 +107,7 @@ class _FormPageState extends State<FormPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 PickedTime(
-                                    time: TimeFormat(user!['sleepTime'])),
+                                    time: timeFormat(user!['sleepTime'])),
                                 ElevatedButton(
                                     onPressed: () async {
                                       TimeOfDay? time = await showTimePicker(
@@ -159,7 +158,7 @@ class _FormPageState extends State<FormPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 PickedTime(
-                                    time: TimeFormat(user!['exerciseTime'])),
+                                    time: timeFormat(user!['exerciseTime'])),
                                 ElevatedButton(
                                     onPressed: () async {
                                       TimeOfDay? time = await showTimePicker(
@@ -210,7 +209,7 @@ class _FormPageState extends State<FormPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                PickedTime(time: TimeFormat(user!['mmt'])),
+                                PickedTime(time: timeFormat(user!['mmt'])),
                                 ElevatedButton(
                                     onPressed: () async {
                                       TimeOfDay? time = await showTimePicker(
@@ -260,7 +259,7 @@ class _FormPageState extends State<FormPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                PickedTime(time: TimeFormat(user!['amt'])),
+                                PickedTime(time: timeFormat(user!['amt'])),
                                 ElevatedButton(
                                     onPressed: () async {
                                       TimeOfDay? time = await showTimePicker(
@@ -310,7 +309,7 @@ class _FormPageState extends State<FormPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                PickedTime(time: TimeFormat(user!['emt'])),
+                                PickedTime(time: timeFormat(user!['emt'])),
                                 ElevatedButton(
                                     onPressed: () async {
                                       TimeOfDay? time = await showTimePicker(
@@ -360,7 +359,7 @@ class _FormPageState extends State<FormPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                PickedTime(time: TimeFormat(user!['nmt'])),
+                                PickedTime(time: timeFormat(user!['nmt'])),
                                 ElevatedButton(
                                     onPressed: () async {
                                       TimeOfDay? time = await showTimePicker(

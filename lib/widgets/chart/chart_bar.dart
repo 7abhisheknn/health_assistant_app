@@ -2,61 +2,60 @@ import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
   final String label;
-  final double spendingAmount;
+  final int spendingAmount;
   final double spendingPctOfTotal;
 
   ChartBar(
-      {required this.label,
+      {Key? key,
+      required this.label,
       required this.spendingAmount,
-      required this.spendingPctOfTotal});
+      required this.spendingPctOfTotal})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (ctx, contraints) {
-        return Column(
-          children: [
-            Container(
-              height: contraints.maxHeight * 0.15,
-              child: FittedBox(
-                child: Text(spendingAmount.toStringAsFixed(0)),
-              ),
-            ),
-            SizedBox(height: contraints.maxHeight * 0.05),
-            Container(
-              height: contraints.maxHeight * 0.6,
-              width: 10,
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                      ),
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          spendingAmount.toStringAsFixed(0),
+          style: const TextStyle(fontSize: 20),
+        ),
+        SizedBox(
+          height: 200,
+          width: 20,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
                   ),
-                  FractionallySizedBox(
-                    heightFactor: 1 - spendingPctOfTotal,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color.fromRGBO(220, 220, 220, 1),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  )
-                ],
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-            ),
-            Container(
-              height: contraints.maxHeight * 0.20,
-              child: FittedBox(child: Text(label)),
-            ),
-          ],
-        );
-      },
+              FractionallySizedBox(
+                heightFactor: 1 - spendingPctOfTotal,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(220, 220, 220, 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+          child: Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
     );
   }
 }
