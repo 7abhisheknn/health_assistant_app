@@ -1,12 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/helper/time_format.dart';
 import 'package:health_assistant_app/widgets/chart/chart_bar.dart';
 
+// ignore: must_be_immutable
 class ChartCard extends StatefulWidget {
+  String title;
   List list;
-  ChartCard({Key? key, required this.list}) : super(key: key);
+  ChartCard({Key? key, required this.title, required this.list})
+      : super(key: key);
 
   @override
   _ChartCardState createState() => _ChartCardState();
@@ -16,8 +17,10 @@ class _ChartCardState extends State<ChartCard> {
   List k = [];
   List v = [];
   bool loading = true;
+  bool data = false;
   double total = 0.0;
   void maxs() {
+    print(widget.list);
     Map<String, int> mm = {};
     for (int i = 0; i < widget.list.length; i++) {
       int count = 0;
@@ -43,20 +46,18 @@ class _ChartCardState extends State<ChartCard> {
         }
       }
     }
-
-    for (int i = 0; i < keys.length; i++) {
-      print(keys[i]);
-      print(values[i]);
-    }
     int max = 5;
-    for (int i = keys.length - 1; (i > 0) && (max > 0); i--, max--) {
+    for (int i = keys.length - 1; (i >= 0) && (max > 0); i--, max--) {
       k.add(keys[i]);
       v.add(values[i]);
     }
     for (int i = 0; i < v.length; i++) {
       total += v[i];
     }
+    print(k);
+    print(v);
     setState(() {
+      if (k.isNotEmpty) data = true;
       loading = false;
     });
   }
@@ -72,16 +73,29 @@ class _ChartCardState extends State<ChartCard> {
     return loading
         ? const Scaffold(body: Center(child: CircularProgressIndicator()))
         : Card(
-            elevation: 6,
+            elevation: 10,
             margin: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
               children: [
-                for (int i = 0; i < k.length; i++)
-                  ChartBar(
-                      label: timeFormat(k[i]),
-                      spendingAmount: v[i],
-                      spendingPctOfTotal: v[i] / total),
+                Text(
+                  widget.title,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                data
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          for (int i = 0; i < k.length; i++)
+                            ChartBar(
+                                label: timeFormat(k[i]),
+                                spendingAmount: v[i],
+                                spendingPctOfTotal: v[i] / total),
+                        ],
+                      )
+                    : const Text('NO_DATA'),
               ],
             ),
           );

@@ -32,13 +32,11 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(child: Chat(chatId: widget.chatId)),
-            NewMessage(chatId: widget.chatId),
-          ],
-        ),
+      body: Column(
+        children: [
+          Expanded(child: Chat(chatId: widget.chatId)),
+          NewMessage(chatId: widget.chatId),
+        ],
       ),
     );
   }

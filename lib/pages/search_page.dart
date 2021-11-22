@@ -17,7 +17,6 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<void> getData() async {
     QuerySnapshot querySnapshot = await collectionRef.get();
-    print(querySnapshot);
     // ignore: unnecessary_cast
     List<Map<String, dynamic>> allData = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
@@ -27,7 +26,6 @@ class _SearchPageState extends State<SearchPage> {
       _allUsers = allData;
       _foundUsers = allData;
     });
-    print(allData);
   }
 
   @override

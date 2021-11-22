@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/widgets/chart/chart_card.dart';
 
+// ignore: must_be_immutable
 class ChatPage extends StatefulWidget {
   String id;
   ChatPage({Key? key, required this.id}) : super(key: key);
@@ -23,6 +24,7 @@ class _ChatPageState extends State<ChatPage> {
         .then((value) {
       user = value.data();
     });
+    print(user!['wakeupHistory']);
     setState(() {
       loading = false;
     });
@@ -38,17 +40,12 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return loading
         ? const Scaffold(body: Center(child: CircularProgressIndicator()))
-        : Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ChartCard(list: user!['wakeupHistory']),
-                // ChartWrapper(title: 'Sleep', list: user!['sleepHistory']),
-                // ChartWrapper(title: 'Exercise', list: user!['exerciseHistory']),
-                // ChartWrapper(title: 'Morning Medicine', list: user!['exerciseHistory']),
-              ],
-            ),
+        : ListView(
+            children: [
+              ChartCard(title: 'WakeUp', list: user!['wakeupHistory']),
+              ChartCard(title: 'Sleep', list: user!['sleepHistory']),
+              ChartCard(title: 'Exercise', list: user!['exerciseHistory']),
+            ],
           );
   }
 }

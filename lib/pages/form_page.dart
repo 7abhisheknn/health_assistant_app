@@ -401,7 +401,6 @@ class _FormPageState extends State<FormPage> {
                     margin: const EdgeInsets.all(20.0),
                     child: ElevatedButton.icon(
                       onPressed: () async {
-                        print('hi');
                         List l = user!['wakeupHistory'];
                         l.add(user!['wakeupTime']);
                         user!['wakeupHistory'] = l;

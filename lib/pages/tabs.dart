@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/pages/chat_page.dart';
@@ -34,6 +33,7 @@ class _TabsState extends State<Tabs> {
                 onPressed: () {
                   Navigator.push(
                     context,
+                    // ignore: prefer_const_constructors
                     MaterialPageRoute(builder: (context) => SearchPage()),
                   );
                 },

@@ -46,15 +46,44 @@ class _AuthPageState extends State<AuthPage> {
         await FirebaseFirestore.instance
             .collection('user')
             .doc(authResult.user!.uid)
-            .set({
-          'doc_id': authResult.user!.uid,
-          'username': username,
-          'email': email,
-          'image_url': url,
-          'is_doctor': isDoctor,
-          if (isDoctor) 'degree': degree,
-          if (isDoctor) 'specialist': specialist
-        });
+            .set(isDoctor
+                ? {
+                    'doc_id': authResult.user!.uid,
+                    'username': username,
+                    'email': email,
+                    'image_url': url,
+                    'is_doctor': isDoctor,
+                    'degree': degree,
+                    'specialist': specialist
+                  }
+                : {
+                    'doc_id': authResult.user!.uid,
+                    'username': username,
+                    'email': email,
+                    'image_url': url,
+                    'is_doctor': isDoctor,
+                    'amh': [],
+                    'ams': false,
+                    'amt': 'TimeOfDay(13:00)',
+                    'emh': [],
+                    'ems': false,
+                    'emt': 'TimeOfDay(18:00)',
+                    'exerciseHistory': [],
+                    'exerciseStatus': false,
+                    'exerciseTime': 'TimeOfDay(06:30)',
+                    'mmh': [],
+                    'mms': false,
+                    'mmt': 'TimeOfDay(08:30)',
+                    'nmh': [],
+                    'nms': false,
+                    'nmt': 'TimeOfDay(21:00)',
+                    'sleepHistory': [],
+                    'sleepStatus': false,
+                    'sleepTime': 'TimeOfDay(22:30)',
+                    'wakeupHistory': [],
+                    'wakeupStatus': false,
+                    'wakeupTime': 'TimeOfDay(06:00)',
+                  });
       }
     } on Exception catch (e) {
       var message = 'An error occurred , please check your credentials!';
