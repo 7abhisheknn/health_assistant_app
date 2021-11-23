@@ -13,10 +13,9 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  List<String> degree = ['MBBS', 'MD'];
   bool _isLoading = false;
   final _auth = FirebaseAuth.instance;
-  void _submitAuthForm(
+  Future _submitAuthForm(
     String email,
     String password,
     String username,
@@ -44,17 +43,47 @@ class _AuthPageState extends State<AuthPage> {
             .child(authResult.user!.uid + '.jpg');
         await ref.putFile(image!).whenComplete(() => null);
         final url = await ref.getDownloadURL();
-        String uploadPlace = isDoctor ? 'doctor' : 'patient';
         await FirebaseFirestore.instance
-            .collection(uploadPlace)
+            .collection('user')
             .doc(authResult.user!.uid)
-            .set({
-          'username': username,
-          'email': email,
-          'image_url': url,
-          if (isDoctor) 'degree': degree,
-          if (isDoctor) 'specialist': specialist
-        });
+            .set(isDoctor
+                ? {
+                    'doc_id': authResult.user!.uid,
+                    'username': username,
+                    'email': email,
+                    'image_url': url,
+                    'is_doctor': isDoctor,
+                    'degree': degree,
+                    'specialist': specialist
+                  }
+                : {
+                    'doc_id': authResult.user!.uid,
+                    'username': username,
+                    'email': email,
+                    'image_url': url,
+                    'is_doctor': isDoctor,
+                    'amh': [],
+                    'ams': false,
+                    'amt': 'TimeOfDay(13:00)',
+                    'emh': [],
+                    'ems': false,
+                    'emt': 'TimeOfDay(18:00)',
+                    'exerciseHistory': [],
+                    'exerciseStatus': false,
+                    'exerciseTime': 'TimeOfDay(06:30)',
+                    'mmh': [],
+                    'mms': false,
+                    'mmt': 'TimeOfDay(08:30)',
+                    'nmh': [],
+                    'nms': false,
+                    'nmt': 'TimeOfDay(21:00)',
+                    'sleepHistory': [],
+                    'sleepStatus': false,
+                    'sleepTime': 'TimeOfDay(22:30)',
+                    'wakeupHistory': [],
+                    'wakeupStatus': false,
+                    'wakeupTime': 'TimeOfDay(06:00)',
+                  });
       }
     } on Exception catch (e) {
       var message = 'An error occurred , please check your credentials!';

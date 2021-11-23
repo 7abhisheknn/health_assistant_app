@@ -68,7 +68,7 @@ class AuthBackground extends StatelessWidget {
                   ),
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
-                    child: AuthPage(),
+                    child: const AuthPage(),
                   ),
                 ],
               ),
