@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:health_assistant_app/pages/chat_page.dart';
+import 'package:health_assistant_app/pages/chart_page.dart';
 import 'package:health_assistant_app/pages/form_page.dart';
 import 'package:health_assistant_app/pages/home_page.dart';
 import 'package:health_assistant_app/pages/search_page.dart';
@@ -64,7 +64,7 @@ class _TabsState extends State<Tabs> {
             children: [
               const HomePage(),
               const FormPage(),
-              ChatPage(id: FirebaseAuth.instance.currentUser!.uid),
+              ChartPage(id: FirebaseAuth.instance.currentUser!.uid),
             ],
           ),
         ),

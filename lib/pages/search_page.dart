@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/helper/search_tap.dart';
 
@@ -10,21 +11,35 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  Map<String, dynamic>? user;
+  bool isDoctor = true;
   CollectionReference collectionRef =
       FirebaseFirestore.instance.collection('user');
   List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
 
   Future<void> getData() async {
+    await FirebaseFirestore.instance
+        .collection('user')
+        .doc(uid)
+        .get()
+        .then((value) {
+      user = value.data();
+    });
+    if (user!['is_doctor'] == true) return;
+
     QuerySnapshot querySnapshot = await collectionRef.get();
     // ignore: unnecessary_cast
     List<Map<String, dynamic>> allData = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList() as List<Map<String, dynamic>>;
     allData = allData.where((element) => element['is_doctor'] == true).toList();
+
     setState(() {
       _allUsers = allData;
       _foundUsers = allData;
+      isDoctor = false;
     });
   }
 
@@ -80,53 +95,60 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Doctors/Consultants'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            TextField(
-              onChanged: (value) => _runFilter(value),
-              decoration: const InputDecoration(
-                  labelText: 'Search', suffixIcon: Icon(Icons.search)),
+    return isDoctor
+        ? Scaffold(
+            appBar: AppBar(),
+            body: const Center(
+              child: Text('only for patients'),
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: _foundUsers.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: _foundUsers.length,
-                      itemBuilder: (context, index) => Card(
-                        key: UniqueKey(),
-                        color: Colors.lightBlue[100],
-                        elevation: 4,
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: ListTile(
-                          onTap: () async {
-                            await searchOnTap(_foundUsers[index]);
-                            Navigator.of(context).pop();
-                          },
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(_foundUsers[index]['image_url']),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title: const Text('Search Doctors/Consultants'),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  TextField(
+                    onChanged: (value) => _runFilter(value),
+                    decoration: const InputDecoration(
+                        labelText: 'Search', suffixIcon: Icon(Icons.search)),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: _foundUsers.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: _foundUsers.length,
+                            itemBuilder: (context, index) => Card(
+                              key: UniqueKey(),
+                              color: Colors.lightBlue[100],
+                              elevation: 4,
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              child: ListTile(
+                                onTap: () async {
+                                  await searchOnTap(_foundUsers[index]);
+                                  Navigator.of(context).pop();
+                                },
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      _foundUsers[index]['image_url']),
+                                ),
+                                title: Text(_foundUsers[index]['username']),
+                                subtitle: Text(
+                                    '${_foundUsers[index]["email"]}\n${_foundUsers[index]["degree"]} | ${_foundUsers[index]["specialist"]}'),
+                              ),
+                            ),
+                          )
+                        : const Text(
+                            'No results found',
+                            style: TextStyle(fontSize: 24),
                           ),
-                          title: Text(_foundUsers[index]['username']),
-                          subtitle: Text(
-                              '${_foundUsers[index]["email"]}\n${_foundUsers[index]["degree"]} | ${_foundUsers[index]["specialist"]}'),
-                        ),
-                      ),
-                    )
-                  : const Text(
-                      'No results found',
-                      style: TextStyle(fontSize: 24),
-                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
