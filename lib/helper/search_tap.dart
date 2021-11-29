@@ -34,5 +34,6 @@ Future searchOnTap(Map<String, dynamic> doctor) async {
     'chat_id': docId,
     'username': patient!['username'],
     'image_url': patient!['image_url'],
+    'doc_id': patient!['doc_id'],
   });
 }

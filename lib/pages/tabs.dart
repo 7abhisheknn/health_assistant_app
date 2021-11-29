@@ -54,8 +54,8 @@ class _TabsState extends State<Tabs> {
             bottom: const TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.auto_graph)),
                 Tab(icon: Icon(Icons.list_alt)),
+                Tab(icon: Icon(Icons.auto_graph)),
               ],
             ),
             title: const Text('Health Assistant App'),
@@ -64,7 +64,9 @@ class _TabsState extends State<Tabs> {
             children: [
               const HomePage(),
               const FormPage(),
-              ChartPage(id: FirebaseAuth.instance.currentUser!.uid),
+              ChartPage(
+                id: FirebaseAuth.instance.currentUser!.uid,
+              ),
             ],
           ),
         ),

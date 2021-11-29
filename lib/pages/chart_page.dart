@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/widgets/chart/chart_card.dart';
 
@@ -13,14 +12,13 @@ class ChartPage extends StatefulWidget {
 }
 
 class _ChartPageState extends State<ChartPage> {
-  final uid = FirebaseAuth.instance.currentUser!.uid;
   Map<String, dynamic>? user;
   bool loading = true;
   bool isDoctor = true;
   void getData() async {
     await FirebaseFirestore.instance
         .collection('user')
-        .doc(uid)
+        .doc(widget.id)
         .get()
         .then((value) {
       user = value.data();
@@ -28,7 +26,9 @@ class _ChartPageState extends State<ChartPage> {
     print(user!['wakeupHistory']);
     setState(() {
       loading = false;
-      if (user!['is_doctor'] == false) isDoctor = false;
+      if (user!['is_doctor'] == false) {
+        isDoctor = false;
+      }
     });
   }
 
