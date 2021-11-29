@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:health_assistant_app/pages/chart_page.dart';
 import 'package:health_assistant_app/widgets/chat/chat.dart';
 import 'package:health_assistant_app/widgets/chat/new_message.dart';
 
@@ -6,8 +8,13 @@ class ChatScreen extends StatefulWidget {
   final String chatId;
   final String name;
   final String image;
+  final String? doc_id;
   const ChatScreen(
-      {required this.chatId, Key? key, required this.name, required this.image})
+      {required this.chatId,
+      Key? key,
+      required this.name,
+      required this.image,
+      required this.doc_id})
       : super(key: key);
 
   @override
@@ -35,7 +42,22 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: [
           Expanded(child: Chat(chatId: widget.chatId)),
-          NewMessage(chatId: widget.chatId),
+          Row(
+            children: [
+              if (widget.doc_id != null)
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChartPage(id: widget.doc_id!)),
+                    );
+                  },
+                  child: const Icon(Icons.auto_graph),
+                ),
+              Expanded(child: NewMessage(chatId: widget.chatId)),
+            ],
+          ),
         ],
       ),
     );

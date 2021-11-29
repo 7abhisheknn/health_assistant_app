@@ -40,9 +40,11 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ChatScreen(
-                          chatId: data['chat_id'],
-                          name: data['username'],
-                          image: data['image_url'])),
+                            chatId: data['chat_id'],
+                            name: data['username'],
+                            image: data['image_url'],
+                            doc_id: data['doc_id'],
+                          )),
                 );
               },
               leading: CircleAvatar(
