@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:health_assistant_app/pages/chart_page.dart';
+import 'package:health_assistant_app/pages/doctor_chart_page.dart';
 import 'package:health_assistant_app/widgets/chat/chat.dart';
 import 'package:health_assistant_app/widgets/chat/new_message.dart';
 
@@ -26,9 +27,6 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: CircleAvatar(
-        //   backgroundImage: NetworkImage(widget.image),
-        // ),
         title: Row(
           children: [
             CircleAvatar(
@@ -50,7 +48,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChartPage(id: widget.doc_id!)),
+                          builder: (context) => DoctorChart(
+                                doc_id: widget.doc_id!,
+                                name: widget.name,
+                                image: widget.name,
+                              )),
                     );
                   },
                   child: const Icon(Icons.auto_graph),
