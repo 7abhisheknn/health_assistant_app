@@ -19,6 +19,7 @@ class _ChatState extends State<Chat> {
           .collection('all_chats')
           .doc(widget.chatId)
           .collection('chat')
+          .orderBy('createdAt')
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -30,8 +31,7 @@ class _ChatState extends State<Chat> {
         }
 
         return ListView(
-          children:
-              snapshot.data!.docs.reversed.map((DocumentSnapshot document) {
+          children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data =
                 document.data()! as Map<String, dynamic>;
             return Container(
